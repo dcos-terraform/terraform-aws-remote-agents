@@ -20,6 +20,7 @@ variable "ssh_public_key_file" {
 
 variable "num_masters" {
   description = "Specify the amount of masters. For redundancy you should have at least 3"
+  default     = 0
 }
 
 variable "num_private_agents" {
