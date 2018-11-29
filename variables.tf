@@ -177,11 +177,13 @@ variable "bootstrap_prereq-id" {
 variable "master_ips" {
   type        = "list"
   description = "List of masterips to SSH to"
+  default     = []
 }
 
 variable "master_private_ips" {
   type        = "list"
   description = "list of master private ips"
+  default     = []
 }
 
 variable "masters_os_user" {
@@ -196,6 +198,7 @@ variable "masters_prereq-id" {
 variable "private_agent_ips" {
   type        = "list"
   description = "List of private agent IPs to SSH to"
+  default     = []
 }
 
 variable "private_agents_os_user" {
@@ -211,6 +214,7 @@ variable "private_agents_prereq-id" {
 variable "public_agent_ips" {
   type        = "list"
   description = "List of public agent IPs to SSH to"
+  default     = []
 }
 
 variable "public_agents_os_user" {
