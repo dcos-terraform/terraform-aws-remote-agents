@@ -18,6 +18,10 @@ variable "ssh_public_key_file" {
   description = "Path to SSH public key. This is mandatory but can be set to an empty string if you want to use ssh_public_key with the key as string."
 }
 
+variable "num_masters" {
+  description = "Specify the amount of masters. For redundancy you should have at least 3"
+}
+
 variable "num_private_agents" {
   description = "Specify the amount of private agents. These agents will provide your main resources"
   default     = 2
@@ -160,17 +164,12 @@ variable "bootstrap_ip" {
   default     = ""
 }
 
-variable "bootstrap_private_ip" {
-  description = "Private IP bootstrap nginx is listening on. Used to build the bootstrap URL."
-  default     = ""
-}
-
 variable "bootstrap_os_user" {
   default     = ""
   description = "The OS user to be used with ssh exec (only for bootstrap)"
 }
 
-variable "bootstrap_prepreq-id" {
+variable "bootstrap_prereq-id" {
   description = "Workaround making the bootstrap install depending on an external resource (e.g. nullresource.id)"
   default     = ""
 }
