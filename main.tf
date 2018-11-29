@@ -92,20 +92,20 @@ module "dcos-install" {
   bootstrap_prereq-id  = "${coalesce(var.bootstrap_prereq-id, module.dcos-infrastructure.bootstrap.prereq-id)}"
 
   # master
-  master_ips         = ["${coalesce(var.master_ips, module.dcos-infrastructure.masters.public_ips)}"]
-  master_private_ips = ["${coalesce(var.master_private_ips, module.dcos-infrastructure.masters.private_ips)}"]
+  master_ips         = ["${coalescelist(var.master_ips, module.dcos-infrastructure.masters.public_ips)}"]
+  master_private_ips = ["${coalescelist(var.master_private_ips, module.dcos-infrastructure.masters.private_ips)}"]
   masters_os_user    = "${coalesce(var.masters_os_user, module.dcos-infrastructure.masters.os_user)}"
   masters_prereq-id  = "${coalesce(var.masters_prereq-id, module.dcos-infrastructure.masters.prereq-id)}"
   num_masters        = "${var.num_masters}"
 
   # private agent
-  private_agent_ips        = ["${coalesce(var.private_agent_ips, module.dcos-infrastructure.private_agents.public_ips)}"]
+  private_agent_ips        = ["${coalescelist(var.private_agent_ips, module.dcos-infrastructure.private_agents.public_ips)}"]
   private_agents_os_user   = "${coalesce(var.private_agents_os_user, module.dcos-infrastructure.private_agents.os_user)}"
   private_agents_prereq-id = "${coalesce(var.private_agents_prereq-id, module.dcos-infrastructure.private_agents.prereq-id)}"
   num_private_agents       = "${coalesce(var.num_private_agents, var.num_private_agents)}"
 
   # public agent
-  public_agent_ips        = ["${coalesce(var.public_agent_ips, module.dcos-infrastructure.public_agents.public_ips)}"]
+  public_agent_ips        = ["${coalescelist(var.public_agent_ips, module.dcos-infrastructure.public_agents.public_ips)}"]
   public_agents_os_user   = "${coalesce(var.public_agents_os_user, module.dcos-infrastructure.public_agents.os_user)}"
   public_agents_prereq-id = "${coalesce(var.public_agents_prereq-id, module.dcos-infrastructure.public_agents.prereq-id)}"
   num_public_agents       = "${coalesce(var.num_public_agents, var.num_public_agents)}"
