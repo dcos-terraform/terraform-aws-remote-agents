@@ -35,8 +35,8 @@ locals {
 }
 
 module "dcos-infrastructure" {
-  source  = "dcos-terraform/infrastructure/aws"
-  version = "~> 0.1"
+  source  = "github.com/dcos-terraform/terraform-aws-infrastructure?ref=conditional-bootstrap"
+#  version = "~> 0.1"
 
   admin_ips                                  = "${var.admin_ips}"
   availability_zones                         = "${var.availability_zones}"
@@ -50,7 +50,7 @@ module "dcos-infrastructure" {
   bootstrap_root_volume_type                 = "${var.bootstrap_root_volume_type}"
   cluster_name                               = "${local.cluster_name}"
   dcos_instance_os                           = "${var.dcos_instance_os}"
-  # num_bootstrap                            = "${var.num_bootstrap}"
+  num_bootstrap                              = "${var.num_bootstrap}"
   num_masters                                = "${var.num_masters}"
   num_private_agents                         = "${var.num_private_agents}"
   num_public_agents                          = "${var.num_public_agents}"
