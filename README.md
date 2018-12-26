@@ -1,4 +1,4 @@
-DC/OS on AWS for Remote Agents
+DC/OS on AWS
 ============
 Creates private and public on AWS for remote environmnets
 
@@ -6,20 +6,21 @@ EXAMPLE
 -------
 
 ```hcl
-module "spoke-1" {
-  source = "dcos-terraform/dcos/aws-remote-agents"
-  version = "~> 0.1"
+ module "spoke-1" {
+   source = "dcos-terraform/dcos/aws-remote-agents"
+   version = "~> 0.1"
 
-  provider "aws" {
-    region = "us-west-2"
-  }
+   provider "aws" {
+     region = "us-west-2"
+   }
 
-  num_private_agents = "2"
-  num_public_agents  = "1"
+   num_private_agents = "2"
+   num_public_agents  = "1"
 
-  dcos_install_mode = "${var.dcos_install_mode}"
-}
+   dcos_install_mode = "${var.dcos_install_mode}"
+ }
 ```
+
 
 ## Inputs
 
@@ -32,7 +33,10 @@ module "spoke-1" {
 | bootstrap_associate_public_ip_address | [BOOTSTRAP] Associate a public ip address with there instances | string | `true` | no |
 | bootstrap_aws_ami | [BOOTSTRAP] AMI to be used | string | `` | no |
 | bootstrap_instance_type | [BOOTSTRAP] Instance type | string | `t2.medium` | no |
+| bootstrap_ip | The bootstrap IP to SSH to | string | `` | no |
 | bootstrap_os | [BOOTSTRAP] Operating system to use. Instead of using your own AMI you could use a provided OS. | string | `` | no |
+| bootstrap_os_user | The OS user to be used with ssh exec (only for bootstrap) | string | `` | no |
+| bootstrap_prereq-id | Workaround making the bootstrap install depending on an external resource (e.g. nullresource.id) | string | `` | no |
 | bootstrap_private_ip | used for the private ip for the bootstrap url | string | `` | no |
 | bootstrap_root_volume_size | [BOOTSTRAP] Root volume size in GB | string | `80` | no |
 | bootstrap_root_volume_type | [BOOTSTRAP] Root volume type | string | `standard` | no |
@@ -137,39 +141,69 @@ module "spoke-1" {
 | dcos_zk_agent_credentials | [Enterprise DC/OS] set the ZooKeeper agent credentials (recommended) | string | `` | no |
 | dcos_zk_master_credentials | [Enterprise DC/OS] set the ZooKeeper master credentials (recommended) | string | `` | no |
 | dcos_zk_super_credentials | [Enterprise DC/OS] set the zk super credentials (recommended) | string | `` | no |
-| masters_associate_public_ip_address | [MASTERS] Associate a public ip address with there instances | string | `true` | no |
-| masters_aws_ami | [MASTERS] AMI to be used | string | `` | no |
-| masters_instance_type | [MASTERS] Instance type | string | `m4.xlarge` | no |
-| masters_os | [MASTERS] Operating system to use. Instead of using your own AMI you could use a provided OS. | string | `` | no |
-| masters_root_volume_size | [MASTERS] Root volume size in GB | string | `120` | no |
-| num_masters | Specify the amount of masters. For redundancy you should have at least 3 | string | `3` | no |
+| master_ips | List of masterips to SSH to | list | `<list>` | no |
+| master_private_ips | list of master private ips | list | `<list>` | no |
+| masters_os_user | The OS user to be used with ssh exec ( only for masters ) | string | `` | no |
+| masters_prereq-id | Workaround making the masters install depending on an external resource (e.g. nullresource.id) | string | `` | no |
+| num_bootstrap | Specify the amount of bootstrap. You should have at most 1 | string | `0` | no |
+| num_masters | Specify the amount of masters. For redundancy you should have at least 3 | string | `0` | no |
 | num_of_private_agents |  | string | `` | no |
 | num_of_public_agents |  | string | `` | no |
 | num_private_agents | Specify the amount of private agents. These agents will provide your main resources | string | `2` | no |
 | num_public_agents | Specify the amount of public agents. These agents will host marathon-lb and edgelb | string | `1` | no |
+| private_agent_ips | List of private agent IPs to SSH to | list | `<list>` | no |
 | private_agents_associate_public_ip_address | [PRIVATE AGENTS] Associate a public ip address with there instances | string | `true` | no |
 | private_agents_aws_ami | [PRIVATE AGENTS] AMI to be used | string | `` | no |
 | private_agents_instance_type | [PRIVATE AGENTS] Instance type | string | `m4.xlarge` | no |
 | private_agents_os | [PRIVATE AGENTS] Operating system to use. Instead of using your own AMI you could use a provided OS. | string | `` | no |
+| private_agents_os_user | The OS user to be used with ssh exec ( only for private agents ) | string | `` | no |
+| private_agents_prereq-id | Workaround making the private agent install depending on an external resource (e.g. nullresource.id) | string | `` | no |
 | private_agents_root_volume_size | [PRIVATE AGENTS] Root volume size in GB | string | `120` | no |
 | private_agents_root_volume_type | [PRIVATE AGENTS] Root volume type | string | `gp2` | no |
+| public_agent_ips | List of public agent IPs to SSH to | list | `<list>` | no |
 | public_agents_additional_ports | List of additional ports allowed for public access on public agents (80 and 443 open by default) | string | `<list>` | no |
 | public_agents_associate_public_ip_address | [PUBLIC AGENTS] Associate a public ip address with there instances | string | `true` | no |
 | public_agents_aws_ami | [PUBLIC AGENTS] AMI to be used | string | `` | no |
 | public_agents_instance_type | [PUBLIC AGENTS] Instance type | string | `m4.xlarge` | no |
 | public_agents_os | [PUBLIC AGENTS] Operating system to use. Instead of using your own AMI you could use a provided OS. | string | `` | no |
+| public_agents_os_user | The OS user to be used with ssh exec (only for public agents) | string | `` | no |
+| public_agents_prereq-id | Workaround making the public agent install depending on an external resource (e.g. nullresource.id) | string | `` | no |
 | public_agents_root_volume_size | [PUBLIC AGENTS] Root volume size | string | `120` | no |
 | public_agents_root_volume_type | [PUBLIC AGENTS] Specify the root volume type. | string | `gp2` | no |
 | ssh_public_key | SSH public key in authorized keys format (e.g. 'ssh-rsa ..') to be used with the instances. Make sure you added this key to your ssh-agent. | string | `` | no |
 | ssh_public_key_file | Path to SSH public key. This is mandatory but can be set to an empty string if you want to use ssh_public_key with the key as string. | string | - | yes |
+| subnet_range | Private IP space to be used in CIDR format | string | `172.14.0.0/16` | no |
 | tags | Add custom tags to all resources | map | `<map>` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| masters-ips | Master IP addresses |
-| masters-loadbalancer | This is the load balancer address to access the DC/OS UI |
+| infrastructure-bootstrap.instance | Bootstrap instance ID |
+| infrastructure-bootstrap.os_user | Bootstrap instance OS default user |
+| infrastructure-bootstrap.prereq-id | Returns the ID of the prereq script for bootstrap (if user_data or ami are not used) |
+| infrastructure-bootstrap.private_ip | Private IP of the bootstrap instance |
+| infrastructure-bootstrap.public_ip | Public IP of the bootstrap instance |
+| infrastructure-elb.masters_dns_name | This is the load balancer to access the DC/OS UI |
+| infrastructure-elb.masters_internal_dns_name | This is the load balancer to access the masters internally in the cluster |
+| infrastructure-elb.public_agents_dns_name | This is the load balancer to reach the public agents |
+| infrastructure-masters.instances | Master instances IDs |
+| infrastructure-masters.os_user | Master instances private OS default user |
+| infrastructure-masters.prereq-id | Returns the ID of the prereq script for masters (if user_data or ami are not used) |
+| infrastructure-masters.private_ips | Master instances private IPs |
+| infrastructure-masters.public_ips | Master instances public IPs |
+| infrastructure-private_agents.instances | Private Agent instances IDs |
+| infrastructure-private_agents.os_user | Private Agent instances private OS default user |
+| infrastructure-private_agents.prereq-id | Returns the ID of the prereq script for private agents (if user_data or ami are not used) |
+| infrastructure-private_agents.private_ips | Private Agent instances private IPs |
+| infrastructure-private_agents.public_ips | Private Agent public IPs |
+| infrastructure-public_agents.instances | Private Agent |
+| infrastructure-public_agents.os_user | Private Agent instances private OS default user |
+| infrastructure-public_agents.prereq-id | Returns the ID of the prereq script for public agents (if user_data or ami are not used) |
+| infrastructure-public_agents.private_ips | Public Agent instances private IPs |
+| infrastructure-public_agents.public_ips | Public Agent public IPs |
+| infrastructure.vpc_id | This is the id of the VPC the cluster is in |
+| private_agents-ips | Master IP addresses |
 | public-agents-loadbalancer | This is the load balancer address to access the DC/OS public agents |
-| vpc.id | This is the id of the VPC the cluster is in |
+| public_agents-ips | Master IP addresses |
 
