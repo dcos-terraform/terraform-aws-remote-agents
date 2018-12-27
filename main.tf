@@ -89,10 +89,10 @@ module "dcos-install" {
 
   # bootstrap
   enable_bootstrap     = "${var.enable_bootstrap}"
-  bootstrap_ip         = "${coalesce(var.bootstrap_ip, module.dcos-infrastructure.bootstrap.public_ip)}"
-  bootstrap_private_ip = "${coalesce(var.bootstrap_private_ip, module.dcos-infrastructure.bootstrap.private_ip)}"
-  bootstrap_os_user    = "${coalesce(var.bootstrap_os_user, module.dcos-infrastructure.bootstrap.os_user)}"
-  bootstrap_prereq-id  = "${coalesce(var.bootstrap_prereq-id, module.dcos-infrastructure.bootstrap.prereq-id)}"
+  bootstrap_ip         = "${var.enable_bootstrap ? module.dcos-infrastructure.bootstrap.public_ip : var.bootstrap_ip}"
+  bootstrap_private_ip = "${var.enable_bootstrap ? module.dcos-infrastructure.bootstrap.private_ip : var.bootstrap_private_ip}"
+  bootstrap_os_user    = "${var.enable_bootstrap ? module.dcos-infrastructure.bootstrap.os_user : var.bootstrap_os_user}"
+  bootstrap_prereq-id  = "${var.enable_bootstrap ? module.dcos-infrastructure.bootstrap.prereq-id : var.bootstrap_prereq-id}"
 
   # master
   master_ips         = ["${coalescelist(var.master_ips, module.dcos-infrastructure.masters.public_ips)}"]
