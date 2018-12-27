@@ -88,6 +88,7 @@ module "dcos-install" {
   #version = "~> 0.0"
 
   # bootstrap
+  enable_bootstrap     = "${var.enable_bootstrap}"
   bootstrap_ip         = "${coalesce(var.bootstrap_ip, module.dcos-infrastructure.bootstrap.public_ip)}"
   bootstrap_private_ip = "${coalesce(var.bootstrap_private_ip, module.dcos-infrastructure.bootstrap.private_ip)}"
   bootstrap_os_user    = "${coalesce(var.bootstrap_os_user, module.dcos-infrastructure.bootstrap.os_user)}"

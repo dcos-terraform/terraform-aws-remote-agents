@@ -237,3 +237,8 @@ variable "subnet_range" {
   description = "Private IP space to be used in CIDR format"
   default     = "172.14.0.0/16"
 }
+
+variable "enable_bootstrap" {
+  description = "Sets whether to deploy bootstrap commands on provided ip address"
+  default     = "true"
+}
