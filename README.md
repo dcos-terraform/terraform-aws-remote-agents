@@ -203,7 +203,10 @@ EXAMPLE
 | infrastructure-public_agents.prereq-id | Returns the ID of the prereq script for public agents (if user_data or ami are not used) |
 | infrastructure-public_agents.private_ips | Public Agent instances private IPs |
 | infrastructure-public_agents.public_ips | Public Agent public IPs |
+| infrastructure.security_group_internal_id | This is the id of the internal security_group that the cluster is in |
+| infrastructure.vpc_cidr_block | This is the id of the VPC the cluster is in |
 | infrastructure.vpc_id | This is the id of the VPC the cluster is in |
+| infrastructure.vpc_main_route_table_id | This is the id of the VPC's main routing table the cluster is in |
 | private_agents-ips | Master IP addresses |
 | public-agents-loadbalancer | This is the load balancer address to access the DC/OS public agents |
 | public_agents-ips | Master IP addresses |
