@@ -201,6 +201,7 @@ variable "masters_prereq-id" {
   description = "Workaround making the masters install depending on an external resource (e.g. nullresource.id)"
   default     = ""
 }
+
 variable "private_agent_ips" {
   type        = "list"
   description = "List of private agent IPs to SSH to"

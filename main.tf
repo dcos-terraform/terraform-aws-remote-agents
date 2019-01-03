@@ -35,8 +35,9 @@ locals {
 }
 
 module "dcos-infrastructure" {
-  source  = "github.com/dcos-terraform/terraform-aws-infrastructure?ref=conditional-bootstrap"
-#  version = "~> 0.1"
+  source = "github.com/dcos-terraform/terraform-aws-infrastructure?ref=conditional-bootstrap"
+
+  #  version = "~> 0.1"
 
   admin_ips                                  = "${var.admin_ips}"
   availability_zones                         = "${var.availability_zones}"
@@ -71,7 +72,6 @@ module "dcos-infrastructure" {
   ssh_public_key_file                        = "${var.ssh_public_key_file}"
   subnet_range                               = "${var.subnet_range}"
   tags                                       = "${var.tags}"
-
   providers = {
     aws = "aws"
   }
@@ -83,7 +83,8 @@ module "dcos-infrastructure" {
 /////////////////////////////////////////
 
 module "dcos-install" {
-  source  = "github.com/dcos-terraform/terraform-null-dcos-install-remote-exec?ref=conditional-bootstrap"
+  source = "github.com/dcos-terraform/terraform-null-dcos-install-remote-exec?ref=conditional-bootstrap"
+
   #source  = "dcos-terraform/dcos-install-remote-exec/null"
   #version = "~> 0.0"
 
@@ -93,29 +94,24 @@ module "dcos-install" {
   bootstrap_private_ip = "${var.enable_bootstrap ? module.dcos-infrastructure.bootstrap.private_ip : var.bootstrap_private_ip}"
   bootstrap_os_user    = "${var.enable_bootstrap ? module.dcos-infrastructure.bootstrap.os_user : var.bootstrap_os_user}"
   bootstrap_prereq-id  = "${var.enable_bootstrap ? module.dcos-infrastructure.bootstrap.prereq-id : var.bootstrap_prereq-id}"
-
   # master
   master_ips         = ["${coalescelist(var.master_ips, module.dcos-infrastructure.masters.public_ips)}"]
   master_private_ips = ["${coalescelist(var.master_private_ips, module.dcos-infrastructure.masters.private_ips)}"]
   masters_os_user    = "${coalesce(var.masters_os_user, module.dcos-infrastructure.masters.os_user)}"
   masters_prereq-id  = "${coalesce(var.masters_prereq-id, module.dcos-infrastructure.masters.prereq-id)}"
   num_masters        = "${var.num_masters}"
-
   # private agent
   private_agent_ips        = ["${coalescelist(var.private_agent_ips, module.dcos-infrastructure.private_agents.public_ips)}"]
   private_agents_os_user   = "${coalesce(var.private_agents_os_user, module.dcos-infrastructure.private_agents.os_user)}"
   private_agents_prereq-id = "${coalesce(var.private_agents_prereq-id, module.dcos-infrastructure.private_agents.prereq-id)}"
   num_private_agents       = "${coalesce(var.num_private_agents, var.num_private_agents)}"
-
   # public agent
   public_agent_ips        = ["${coalescelist(var.public_agent_ips, module.dcos-infrastructure.public_agents.public_ips)}"]
   public_agents_os_user   = "${coalesce(var.public_agents_os_user, module.dcos-infrastructure.public_agents.os_user)}"
   public_agents_prereq-id = "${coalesce(var.public_agents_prereq-id, module.dcos-infrastructure.public_agents.prereq-id)}"
   num_public_agents       = "${coalesce(var.num_public_agents, var.num_public_agents)}"
-
   # DC/OS options
   dcos_cluster_name = "${coalesce(var.dcos_cluster_name, local.cluster_name)}"
-
   custom_dcos_download_path                    = "${var.custom_dcos_download_path}"
   dcos_adminrouter_tls_1_0_enabled             = "${var.dcos_adminrouter_tls_1_0_enabled}"
   dcos_adminrouter_tls_1_1_enabled             = "${var.dcos_adminrouter_tls_1_1_enabled}"
