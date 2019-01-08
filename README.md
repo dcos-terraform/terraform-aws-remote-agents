@@ -1,8 +1,28 @@
 DC/OS on AWS
 ============
-Creates private and public on AWS for remote environmnets
+Creates private and public on AWS for remote regions. This supports the ability to enable a remote bootstrap node for improved performance for deploying remote agents.
 
-EXAMPLE
+EXAMPLE WITHOUT REMOTE BOOTSTRAP
+-------
+
+```hcl
+ module "spoke-1" {
+   source = "dcos-terraform/dcos/aws-remote-agents"
+   version = "~> 0.1"
+
+   provider "aws" {
+     region = "us-west-2"
+   }
+
+   num_private_agents = "2"
+   num_public_agents  = "1"
+   subnet_range       = "172.13.0.0/16"
+
+   dcos_install_mode  = "${var.dcos_install_mode}"
+ }
+```
+
+EXAMPLE WITHOUT REMOTE BOOTSTRAP
 -------
 
 ```hcl
@@ -17,7 +37,11 @@ EXAMPLE
    num_private_agents = "2"
    num_public_agents  = "1"
 
-   dcos_install_mode = "${var.dcos_install_mode}"
+   enable_bootstrap   = true
+   master_private_ips = "${module.dcos.infrastructure-masters.private_ips}"
+   subnet_range       = "172.13.0.0/16"
+
+   dcos_install_mode  = "${var.dcos_install_mode}"
  }
 ```
 
