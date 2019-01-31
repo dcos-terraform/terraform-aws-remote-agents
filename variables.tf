@@ -243,3 +243,8 @@ variable "enable_bootstrap" {
   description = "Sets whether to deploy bootstrap commands on provided ip address"
   default     = "false"
 }
+
+variable "name_prefix" {
+  description = "Name Prefix"
+  default     = "remote"
+}

@@ -141,11 +141,12 @@ EXAMPLE
 | dcos_zk_agent_credentials | [Enterprise DC/OS] set the ZooKeeper agent credentials (recommended) | string | `` | no |
 | dcos_zk_master_credentials | [Enterprise DC/OS] set the ZooKeeper master credentials (recommended) | string | `` | no |
 | dcos_zk_super_credentials | [Enterprise DC/OS] set the zk super credentials (recommended) | string | `` | no |
-| enable_bootstrap | Sets whether to deploy bootstrap commands on provided ip address | string | `true` | no |
+| enable_bootstrap | Sets whether to deploy bootstrap commands on provided ip address | string | `false` | no |
 | master_ips | List of masterips to SSH to | list | `<list>` | no |
 | master_private_ips | list of master private ips | list | `<list>` | no |
 | masters_os_user | The OS user to be used with ssh exec ( only for masters ) | string | `` | no |
 | masters_prereq-id | Workaround making the masters install depending on an external resource (e.g. nullresource.id) | string | `` | no |
+| name_prefix | Name Prefix | string | `remote` | no |
 | num_bootstrap | Specify the amount of bootstrap. You should have at most 1 | string | `0` | no |
 | num_masters | Specify the amount of masters. For redundancy you should have at least 3 | string | `0` | no |
 | num_of_private_agents |  | string | `` | no |
