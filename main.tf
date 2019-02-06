@@ -111,7 +111,7 @@ module "dcos-install" {
   public_agents_prereq-id = "${coalesce(var.public_agents_prereq-id, module.dcos-infrastructure.public_agents.prereq-id)}"
   num_public_agents       = "${coalesce(var.num_public_agents, var.num_public_agents)}"
   # DC/OS options
-  dcos_cluster_name = "${coalesce(var.dcos_cluster_name, local.cluster_name)}"
+  dcos_cluster_name                            = "${coalesce(var.dcos_cluster_name, local.cluster_name)}"
   custom_dcos_download_path                    = "${var.custom_dcos_download_path}"
   dcos_adminrouter_tls_1_0_enabled             = "${var.dcos_adminrouter_tls_1_0_enabled}"
   dcos_adminrouter_tls_1_1_enabled             = "${var.dcos_adminrouter_tls_1_1_enabled}"
