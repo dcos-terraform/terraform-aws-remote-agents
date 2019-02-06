@@ -51,6 +51,7 @@ module "dcos-infrastructure" {
   cluster_name                               = "${local.cluster_name}"
   name_prefix                                = "${var.name_prefix}"
   dcos_instance_os                           = "${var.dcos_instance_os}"
+  internal_networks                          = ["${var.internal_networks}"]
   num_bootstrap                              = "${var.enable_bootstrap ? 1 : 0}"
   num_masters                                = "${var.num_masters}"
   num_private_agents                         = "${var.num_private_agents}"

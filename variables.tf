@@ -248,3 +248,9 @@ variable "name_prefix" {
   description = "Name Prefix"
   default     = "remote"
 }
+
+variable "internal_networks" {
+  description = "Subnet ranges for all internal networks"
+  type        = "list"
+  default     = []
+}
