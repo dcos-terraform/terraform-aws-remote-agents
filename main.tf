@@ -35,7 +35,7 @@ locals {
 }
 
 module "dcos-infrastructure" {
-  source = "github.com/dcos-terraform/terraform-aws-infrastructure?ref=conditional-bootstrap"
+  source = "github.com/dcos-terraform/terraform-aws-infrastructure?ref=conditional-bootstrap-test-only"
 
   #  version = "~> 0.1"
 
@@ -83,7 +83,7 @@ module "dcos-infrastructure" {
 /////////////////////////////////////////
 
 module "dcos-install" {
-  source = "github.com/dcos-terraform/terraform-null-dcos-install-remote-exec?ref=conditional-bootstrap"
+  source = "github.com/dcos-terraform/terraform-null-dcos-install-remote-exec?ref=conditional-bootstrap-test-only"
 
   #source  = "dcos-terraform/dcos-install-remote-exec/null"
   #version = "~> 0.0"
